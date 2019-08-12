@@ -1,10 +1,10 @@
 BEGIN {
-	 print "================ working on /etc/passswd file ==============" 
+	 print "================ working on /etc/passswd file ==============";
 } 
 /root/ { 
-	print $0
+	print $0;
  } 
 END { 
-print "=======================Completed==================="
+print "=======================Completed===================";
 } 
 
