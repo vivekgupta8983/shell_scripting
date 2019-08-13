@@ -1,4 +1,4 @@
 #!/bin/aws -f
 BEGIN {
-    print "Hello World !!!!"
+    print "Hello World !!!!";
 }
