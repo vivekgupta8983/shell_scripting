@@ -14,7 +14,7 @@ java()
     ##check java is install or not
     java -version
     if [ $? != "0"]; then
-    echo "Please install java !!!!!!!!! "
+    echo "Please install java !!!!!!!!!"
     apt update -y
     apt install openjdk-9-jdk -y
 }
