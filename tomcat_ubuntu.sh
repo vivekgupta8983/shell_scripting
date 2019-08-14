@@ -31,12 +31,31 @@ download_tomcat()
 {
     ### download tomcat
     cd /tmp
-    curl -O http://apache.mirrors.ionfish.org/tomcat/tomcat-8/v8.5.5/bin/apache-tomcat-8.5.5.tar.gz
+    wget http://apache.spinellicreations.com/tomcat/tomcat-8/v8.5.32/bin/apache-tomcat-8.5.32.tar.gz
     mkdir /tomcat
     tar xzvf apache-tomcat-8*tar.gz -C /tomcat --strip-components=1
     cd /tomcat
-    sudo chgrp -R tomcat /tomcat
+    chgrp -R tomcat /tomcat
     chmod -R g+r conf
     chmod g+x conf
     chown -R tomcat webapps/ work/ temp/ logs/
+        
 }
+
+configure_bashrc()
+{
+    echo "export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64" >> ~/.bashrc
+    echo "export CATALINA_HOME=/tomcat" >> ~/.bashrc
+    . ~/.bashrc
+    sed -i  "<role rolename="manager-gui"/>
+    <role rolename="admin-gui"/>
+    <user username="username" password="password" roles="manager-gui,admin-gui"/>"
+    ##to start  tomcat services
+    bash $CATALINA_HOME/bin/startup.sh
+
+}
+
+check_root
+java
+download_tomcat
+configure_bashrc
