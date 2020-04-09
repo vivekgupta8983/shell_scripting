@@ -24,24 +24,40 @@ dist()
 
 ubuntu()
 {
-    docker -v
-    if [ $? != "0"]
-    then
-    echo " "
-    apt-get install -y docker.io
+    sudo apt-get remove -y docker docker-engine docker.io containerd runc
+    sudo apt-get update
+    sudo apt-get install -y apt-transport-https ca-certificates  curl  gnupg-agent  software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+   
+    sudo apt-get update
+    sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+
     systemctl start docker
     systemctl enable docker
-    fi
+    sudo groupadd docker
+    sudo usermod -aG docker $USER
+
+   sudo systemctl restart docker
+    
 }
 
 Redhat()
 {
-    docker -v
-    if [ $? != "0"]
-    then
-    echo " "
-    yum  install -y docker.io
-    systemctl start docker
-    systemctl enable docker
-    fi
+    sudo yum remove -y docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine
+
+    sudo yum install -y yum-utils
+
+   sudo yum-config-manager --add-repo     https://download.docker.com/linux/centos/docker-ce.repo    
+    
+    sudo yum install docker-ce docker-ce-cli containerd.io
+    
+    sudo systemctl start docker
+    sudo systemctl enable docker
+    
+
+    sudo groupadd docker
+    sudo usermod -aG docker $USER
+    sudo systemctl restart docker
+   
 }
